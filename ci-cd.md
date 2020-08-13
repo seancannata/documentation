@@ -56,9 +56,16 @@ $ sudo ./lighttpd.sh
 # Image Registry
 
 `Quay`
+[Supported Identity Management](https://access.redhat.com/articles/4067991)
 
 `OpenShift Image Registry`
 
+**Image Registry Uses**
+-   Golden Container Images
+-   Desination for Container Images
+-   Integrated with Clair
+-   Complete actions based on triggers
+    - Example: Using OpenShift and you built a new image Quay can automatically deploy the image for you in OpenShift with it's Bridge Operator.
 
 # CI / CD Tooling 
 
@@ -79,3 +86,16 @@ $ sudo ./lighttpd.sh
 -   Package the application as a WAR file, then pushes the WAR artifact to the Nexus Repository manager
 -   Create a container image based the JBoss EAP runtime image and the content of the WAR artifact, then tag the newly created container image with the git SHA of the revision that was built
 -   Deploy the newly created container image into the %username%-dev project
+
+# Clair
+-   Sources it pulls metadata from [here](https://github.com/quay/clair/blob/master/Documentation/drivers-and-data-sources.md#data-sources-for-the-built-in-drivers)
+
+Clair basically is leveraging the package manager(s) of the container image and scanning it for vulnrabilties. If your images are are using slim container images Clair doesn't have a package manager to work with and thus will not work. It's also worth noting that given the data sources linked above we support scanning of other operating system level package manager content including:
+    - Debian
+    - Ubuntu
+    - RHEL / CentOS
+    - Alpine
+    - SuSE Linux
+    - Oracle Linux
+    - Amazon Linux
+    - Generic (NVD Data)
